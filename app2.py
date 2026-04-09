@@ -2,16 +2,20 @@ import streamlit as st
 import pandas as pd
 import pickle
 import requests
-import requests
+import gdown
 import os
 
 file_id = "1g5XrsneVPGWsxFzYMz6oRZwNqUMxuxla"
-url = f"https://drive.google.com/uc?export=download&id={file_id}"
+url = f"https://drive.google.com/uc?id={file_id}"
 
-if not os.path.exists("similarity.pkl"):
-    with open("similarity.pkl", "wb") as f:
-        response = requests.get(url)
-        f.write(response.content)
+# Delete old corrupt file
+if os.path.exists("similarity.pkl"):
+    os.remove("similarity.pkl")
+
+# Download fresh file
+gdown.download(url, "similarity.pkl", quiet=False)
+
+
 
 st.set_page_config(page_title="Movie Recommender System", layout="wide")
 
