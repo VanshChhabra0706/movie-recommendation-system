@@ -2,16 +2,6 @@ import streamlit as st
 import pandas as pd
 import pickle
 import requests
-import requests
-import os
-
-file_id = "1g5XrsneVPGWsxFzYMz6oRZwNqUMxuxla"
-url = f"https://drive.google.com/uc?export=download&id={file_id}"
-
-if not os.path.exists("similarity.pkl"):
-    with open("similarity.pkl", "wb") as f:
-        response = requests.get(url)
-        f.write(response.content)
 
 st.set_page_config(page_title="Movie Recommender System", layout="wide")
 
@@ -21,26 +11,28 @@ movies = pd.DataFrame(movies_dict)
 
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 
-API_KEY = "bac645078e9a3c0f648c04bfcdf37a67"
+# 🔐 Put your API key here
+API_KEY = "YOUR_TMDB_API_KEY"
 
 # ---------- POSTER FETCH ----------
 @st.cache_data(show_spinner=False)
 def fetch_poster(tmdb_id):
     try:
         url = f"https://api.themoviedb.org/3/movie/{tmdb_id}?api_key={API_KEY}&language=en-US"
-        res = requests.get(url, timeout=3)
+        response = requests.get(url, timeout=5)
 
-        if res.status_code != 200:
+        if response.status_code != 200:
             return None
 
-        data = res.json()
+        data = response.json()
         poster_path = data.get("poster_path")
 
         if poster_path:
-            return "https://image.tmdb.org/t/p/w500" + poster_path
-        return None
+            return f"https://image.tmdb.org/t/p/w500{poster_path}"
+        else:
+            return None
 
-    except:
+    except Exception:
         return None
 
 
@@ -61,11 +53,16 @@ def recommend(movie):
     for i in movies_list:
         row = movies.iloc[i[0]]
 
-        # 🔑 IMPORTANT: choose correct ID column
-        tmdb_id = row['id'] if 'id' in movies.columns else row['movie_id']
+        # ✅ CORRECT TMDB ID HANDLING
+        if 'tmdb_id' in movies.columns:
+            tmdb_id = row['tmdb_id']
+        elif 'id' in movies.columns:
+            tmdb_id = row['id']
+        else:
+            tmdb_id = row['movie_id']
 
         names.append(row['title'])
-        posters.append(fetch_poster(tmdb_id))
+        posters.append(fetch_poster(int(tmdb_id)))
 
     return names, posters
 
@@ -83,10 +80,11 @@ if st.button("Recommend"):
         names, posters = recommend(selected_movie)
 
     cols = st.columns(5)
+
     for i in range(5):
         with cols[i]:
-            st.text(names[i])
+            st.subheader(names[i])
             if posters[i]:
-                st.image(posters[i], width=250)
+                st.image(posters[i], use_container_width=True)
             else:
                 st.caption("Poster not available")
