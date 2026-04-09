@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import streamlit as st
 import pandas as pd
 import pickle
@@ -91,7 +90,6 @@ if st.button("Recommend"):
                 st.image(posters[i], width=250)
             else:
                 st.caption("Poster not available")
-=======
 import streamlit as st
 import pandas as pd
 import pickle
@@ -174,4 +172,3 @@ if st.button("Recommend"):
                 st.image(posters[i], width=250)
             else:
                 st.caption("Poster not available")
->>>>>>> f0286d86b4343160ba1e6623209eadd40490fb2e
