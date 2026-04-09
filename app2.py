@@ -2,7 +2,12 @@ import streamlit as st
 import pandas as pd
 import pickle
 import requests
-
+import gdown
+import os
+file_id = "1g5XrsneVPGWsxFzYMz6oRZwNqUMxuxla"
+url = f"https://drive.google.com/uc?id={file_id}"
+if not os.path.exists("similarity.pkl"):
+    gdown.download(url, "similarity.pkl", quiet=False, fuzzy=True)
 
 # -------- DOWNLOAD FILE --------
 file_id = "1g5XrsneVPGWsxFzYMz6oRZwNqUMxuxla"
