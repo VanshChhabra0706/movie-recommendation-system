@@ -118,6 +118,8 @@ Deploy with database integration
 
 This project is open-source and available under the MIT License.
 
+LIVE URL :- https://movie-recommendation-system-bdfgjzasahhlqqtqmjt43s.streamlit.app/
+
 👨‍💻 Author
 
 Vansh
