@@ -2,6 +2,15 @@ import streamlit as st
 import pandas as pd
 import pickle
 import requests
+import os
+import gdown
+
+# ---------- DOWNLOAD similarity.pkl ----------
+file_id = "1BvB8t8pI-T0rWjLYfkFVv37AU0bT8Mpq"
+url = f"https://drive.google.com/uc?id={file_id}"
+
+if not os.path.exists("similarity.pkl"):
+    gdown.download(url, "similarity.pkl", quiet=False)
 
 # ---------- CONFIG ----------
 st.set_page_config(page_title="Movie Recommender System", layout="wide")
