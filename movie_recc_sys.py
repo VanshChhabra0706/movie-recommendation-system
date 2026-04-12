@@ -3,18 +3,19 @@ import pandas as pd
 import pickle
 import requests
 import os
-import gdown
-import pickle
 
-file_id = "1BvB8t8pI-T0rWjLYfkFVv37AU0bT8Mpq"
-url = f"https://drive.google.com/uc?id={file_id}"
+# ---------- DOWNLOAD similarity.pkl FROM HUGGINGFACE ----------
+url = "https://huggingface.co/datasets/vanshchh/movie-recommender/resolve/main/similarity.pkl"
 
-# Download only if not present
+def download_file():
+    response = requests.get(url, stream=True)
+    with open("similarity.pkl", "wb") as f:
+        for chunk in response.iter_content(1024):
+            if chunk:
+                f.write(chunk)
+
 if not os.path.exists("similarity.pkl"):
-    gdown.download(url, "similarity.pkl", quiet=False)
-
-# Load file
-similarity = pickle.load(open("similarity.pkl", "rb"))
+    download_file()
 
 # ---------- CONFIG ----------
 st.set_page_config(page_title="Movie Recommender System", layout="wide")
