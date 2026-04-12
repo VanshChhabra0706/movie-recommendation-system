@@ -118,7 +118,7 @@ Deploy with database integration
 
 This project is open-source and available under the MIT License.
 
-LIVE URL :- https://movie-recommendation-system-bdfgjzasahhlqqtqmjt43s.streamlit.app/
+LIVE URL :- https://movie-recommendation-system-rvp8zl39y3uty4mwqkkj7e.streamlit.app/
 
 👨‍💻 Author
 
